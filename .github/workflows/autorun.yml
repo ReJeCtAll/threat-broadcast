@@ -23,15 +23,12 @@ jobs:
         key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
         restore-keys: |
           ${{ runner.os }}-pip-
-
     - name: Install Python dependencies
       run: |
         python -m pip install -r requirements.txt
-
     - name: Crawl CVEs
       run: |-
         python main.py -gtk ${{ secrets.GITHUB_TOKEN }}
-
     # 若该时间段没有 CVE， 则 file://cache/mail.dat 文件不会生成，此时不会发送邮件
     - name: Send mail
       uses: lyy289065406/action-send-mail@master
